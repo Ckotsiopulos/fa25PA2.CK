@@ -132,11 +132,35 @@ return heap.pop(weightArr);
 }
 
 // Step 4: Use an STL stack to generate codes
-void generateCodes(int root, string codes[]) {
-    // TODO:
-    // Use stack<pair<int, string>> to simulate DFS traversal.
-    // Left edge adds '0', right edge adds '1'.
-    // Record code when a leaf node is reached.
+ void generateCodes(int root, string codes[]) {
+// TODO:
+// Use stack<pair<int, string>> to simulate DFS traversal.
+stack<pair<int, string>> st; 
+st.push({root, ""}); 
+
+
+while (!st.empty()) {
+auto cur = st.top(); st.pop(); 
+int node = cur.first;
+string code = cur.second;
+
+
+// Check if node is a leaf
+if (leftArr[node] == -1 && rightArr[node] == -1) {
+codes[charArr[node] - 'a'] = code; 
+continue;
+}
+
+
+// Push right child with '1'
+if (rightArr[node] != -1)
+st.push({rightArr[node], code + "1"}); 
+
+
+// Push left child with '0'
+if (leftArr[node] != -1)
+st.push({leftArr[node], code + "0"}); 
+}
 }
 
 // Step 5: Print table and encoded message
